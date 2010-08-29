@@ -1,0 +1,8 @@
+[Desktop Entry]
+_Name=Gwitter
+_Comment=Gwitter application
+Categories=GNOME;Utility;
+Exec=gwitter
+Icon=gwitter
+Terminal=false
+Type=Application
