@@ -16,6 +16,8 @@
   </object>
   <object class="GwitterWindow" id="gwitter_window">
     <property name="title" translatable="yes">Gwitter</property>
+    <property name="resizable">False</property>
+    <property name="window_position">center</property>
     <property name="icon">../media/icon.png</property>
     <signal name="destroy" handler="on_destroy"/>
     <child>
@@ -204,7 +206,9 @@
               <object class="GtkEntry" id="txt_tweet">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="max_length">147</property>
                 <property name="invisible_char">&#x25CF;</property>
+                <signal name="insert_text" handler="update_chars_left"/>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -474,12 +478,12 @@
             <property name="visible">True</property>
             <property name="spacing">2</property>
             <child>
-              <object class="GtkLabel" id="label2">
+              <object class="GtkLabel" id="status_lbl">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
                 <property name="xpad">5</property>
                 <property name="ypad">5</property>
-                <property name="label" translatable="yes">127 charaters left...</property>
+                <property name="label" translatable="yes">Welcome to Gwitter..</property>
               </object>
               <packing>
                 <property name="position">0</property>
