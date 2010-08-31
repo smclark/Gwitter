@@ -24,18 +24,12 @@ if (os.path.exists(os.path.join(PROJECT_ROOT_DIRECTORY, 'gwitter'))
 from gwitter import (
     AboutGwitterDialog, PreferencesGwitterDialog)
 from gwitter.helpers import get_builder
-<<<<<<< HEAD
-=======
-
 
 from oauth import oauth
 import gwitter.oauthtwitter as twitt #import OAuthAPI
 
-
->>>>>>> upstream/master
 class GwitterWindow(gtk.Window):
     __gtype_name__ = "GwitterWindow"
-    dave = 34
     # To construct a new instance of this method, the following notable 
     # methods are called in this order:
     # __new__(cls)
@@ -76,15 +70,10 @@ class GwitterWindow(gtk.Window):
         #self.preferences = dlg.get_preferences()
 
         # Code for other initialization actions should be added here.
-<<<<<<< HEAD
-        
-=======
+
 
 #        twitter = twitt.OAuthApi().TestMethod()
         max_chars = 147
->>>>>>> upstream/master
-
-
     def about(self, widget, data=None):
         """Display the about box for gwitter."""
         about = AboutGwitterDialog.AboutGwitterDialog()
@@ -183,8 +172,8 @@ if __name__ == "__main__":
         logging.debug('logging enabled')
 
     # Run the application.
-    max_chars = 147 
     #number of characters allowed in a single tweet. DONT KNOW WHERE ELSE TO PUT THIS HUNTLY!
+    max_chars = 147
     window = GwitterWindow()
     window.show()
     gtk.main()
