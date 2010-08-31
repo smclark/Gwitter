@@ -25,13 +25,11 @@ from gwitter import (
     AboutGwitterDialog, PreferencesGwitterDialog)
 from gwitter.helpers import get_builder
 
-<<<<<<< HEAD
+
 from oauth import oauth
 import gwitter.oauthtwitter as twitt #import OAuthAPI
 
 
-=======
->>>>>>> upstream/master
 class GwitterWindow(gtk.Window):
     __gtype_name__ = "GwitterWindow"
     # To construct a new instance of this method, the following notable 
@@ -74,11 +72,10 @@ class GwitterWindow(gtk.Window):
         #self.preferences = dlg.get_preferences()
 
         # Code for other initialization actions should be added here.
-<<<<<<< HEAD
-        twitter = twitt.OAuthApi().TestMethod()
-=======
+
+#        twitter = twitt.OAuthApi().TestMethod()
         max_chars = 147
->>>>>>> upstream/master
+
 
     def about(self, widget, data=None):
         """Display the about box for gwitter."""
