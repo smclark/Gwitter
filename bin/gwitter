@@ -25,13 +25,15 @@ from gwitter import (
     AboutGwitterDialog, PreferencesGwitterDialog)
 from gwitter.helpers import get_builder
 
+<<<<<<< HEAD
 from oauth import oauth
 import gwitter.oauthtwitter as twitt #import OAuthAPI
 
 
+=======
+>>>>>>> upstream/master
 class GwitterWindow(gtk.Window):
     __gtype_name__ = "GwitterWindow"
-    
     # To construct a new instance of this method, the following notable 
     # methods are called in this order:
     # __new__(cls)
@@ -72,7 +74,11 @@ class GwitterWindow(gtk.Window):
         #self.preferences = dlg.get_preferences()
 
         # Code for other initialization actions should be added here.
+<<<<<<< HEAD
         twitter = twitt.OAuthApi().TestMethod()
+=======
+        max_chars = 147
+>>>>>>> upstream/master
 
     def about(self, widget, data=None):
         """Display the about box for gwitter."""
@@ -98,6 +104,64 @@ class GwitterWindow(gtk.Window):
         # Clean up code for saving application state should be added here.
         gtk.main_quit()
 
+        #All code for button interactions to go below this comment:
+
+    def search_btn_clicked(self, widget, data=None):
+        """Called whenever the search button is clicked. Method should be here to 
+        either open a new window with the results in it or post results to the 
+        main_feed_TV. Choices choices"""
+        # Method to handle search here.
+        search_text = self.get_text("txt_search")
+        print search_text
+
+    def tweet_btn_clicked(self,widget, data=None):
+        """Called when the Tweet button is clicked. This should call a method that 
+        will upload the text from the tweet_text box and post it to the current users
+        twitter page using OAuth"""
+        tweet_text = self.get_text("txt_tweet")        
+        print tweet_text
+
+    def btn_unfollow_clicked(self, widget, data=None):
+        """Called when the user wants to unfollow another user and has pressed 
+        the unfollow button in the account management area. Should probably present the
+        user with a combo box style list with all the people they follow on it."""
+        print "unfollow clicked"
+
+    def btn_follow_clicked(self, widget, data=None):
+        """Bring up a new window that the user can enter the details of the person
+        they want to follow in. Either email address or username"""
+        print "follow clicked"
+
+    # Random Methods go here:
+
+    def get_text(self, caller):
+        """This method will determine which caller has asked to retrieve text 
+        from one of the textboxes on the GUI. Depending on who called it will
+        return the text from that text box."""
+        
+        if caller == "txt_search":
+            search_text = self.builder.get_object("txt_search").get_text()
+            return search_text
+        elif caller == "txt_tweet":
+            tweet_text = self.builder.get_object("txt_tweet").get_text()            
+            return tweet_text
+
+    def update_chars_left(self,widget,m,n ,data=None):
+        """Calculate how many character the user has remaining to add to their Tweet 
+        before it reaches the maximum limit imposed by Twitter: 147 characters"""
+        global max_chars 
+        if (max_chars - 1) == -1:
+            print "Limit reached"
+        else:
+            max_chars = max_chars - 1
+            self.update_status(max_chars)
+
+    def update_status(self, chars):
+        """this method is called everytime a user enters text into the Tweet text 
+        box and alters the label on the status bar to show how many characters are left."""
+        status_label = self.builder.get_object("status_lbl")
+        status_label.set_text("%d characters left" % chars)
+
 if __name__ == "__main__":
     # Support for command line options.
     import logging
@@ -114,6 +178,8 @@ if __name__ == "__main__":
         logging.debug('logging enabled')
 
     # Run the application.
+    max_chars = 147 
+    #number of characters allowed in a single tweet. DONT KNOW WHERE ELSE TO PUT THIS HUNTLY!
     window = GwitterWindow()
     window.show()
     gtk.main()
