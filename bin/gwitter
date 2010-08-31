@@ -147,7 +147,7 @@ class GwitterWindow(gtk.Window):
 
     def update_chars_left(self,widget,m,n ,data=None):
         """Calculate how many character the user has remaining to add to their Tweet 
-        before it reaches the maximum limit imposed by Twitter: 147 characters"""
+        before it reaches the maximum limit imposed by Twitter: 140 characters"""
         global max_chars 
         if (max_chars - 1) == -1:
             print "Limit reached"

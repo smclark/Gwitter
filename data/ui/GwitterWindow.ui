@@ -208,6 +208,7 @@
                 <property name="can_focus">True</property>
                 <property name="max_length">147</property>
                 <property name="invisible_char">&#x25CF;</property>
+                <signal name="delete_text" handler="update_chars_left"/>
                 <signal name="insert_text" handler="update_chars_left"/>
               </object>
               <packing>
