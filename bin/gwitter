@@ -32,6 +32,7 @@ import gwitter.oauthtwitter as twitt #import OAuthAPI
 
 class GwitterWindow(gtk.Window):
     __gtype_name__ = "GwitterWindow"
+    dave = 50
     # To construct a new instance of this method, the following notable 
     # methods are called in this order:
     # __new__(cls)
