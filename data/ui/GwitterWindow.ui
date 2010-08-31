@@ -1,9 +1,19 @@
 <?xml version="1.0"?>
 <interface>
-  <!-- interface-requires gwitter_window 1.0 -->
   <requires lib="gtk+" version="2.16"/>
+  <!-- interface-requires gwitter_window 1.0 -->
   <!-- interface-naming-policy project-wide -->
   <!-- interface-local-resource-path ../media -->
+  <object class="GtkListStore" id="liststore1">
+    <columns>
+      <!-- column-name Account -->
+      <column type="gchar"/>
+      <!-- column-name Following -->
+      <column type="gchar"/>
+      <!-- column-name gchar1 -->
+      <column type="gchar"/>
+    </columns>
+  </object>
   <object class="GwitterWindow" id="gwitter_window">
     <property name="title" translatable="yes">Gwitter</property>
     <property name="icon">../media/icon.png</property>
@@ -191,7 +201,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="txt_search">
+              <object class="GtkEntry" id="txt_tweet">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="invisible_char">&#x25CF;</property>
@@ -201,11 +211,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="btn_search">
+              <object class="GtkButton" id="tweet_btn">
                 <property name="label" translatable="yes">Go!</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <signal name="clicked" handler="tweet_btn_clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -225,7 +236,7 @@
             <property name="height_request">0</property>
             <property name="visible">True</property>
             <child>
-              <object class="GtkTreeView" id="treeview1">
+              <object class="GtkTreeView" id="rel_tree">
                 <property name="width_request">183</property>
                 <property name="height_request">137</property>
                 <property name="visible">True</property>
@@ -283,6 +294,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <signal name="clicked" handler="btn_follow_clicked"/>
                           </object>
                           <packing>
                             <property name="x">81</property>
@@ -297,6 +309,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <signal name="clicked" handler="btn_unfollow_clicked"/>
                           </object>
                           <packing>
                             <property name="x">81</property>
@@ -335,7 +348,7 @@
                       <object class="GtkFixed" id="fixed3">
                         <property name="visible">True</property>
                         <child>
-                          <object class="GtkEntry" id="txt_searc">
+                          <object class="GtkEntry" id="txt_search">
                             <property name="width_request">130</property>
                             <property name="height_request">26</property>
                             <property name="visible">True</property>
@@ -344,13 +357,14 @@
                           </object>
                         </child>
                         <child>
-                          <object class="GtkButton" id="btn_searc">
+                          <object class="GtkButton" id="search_btn">
                             <property name="label" translatable="yes">-&gt;</property>
                             <property name="width_request">34</property>
                             <property name="height_request">26</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <signal name="clicked" handler="search_btn_clicked"/>
                           </object>
                           <packing>
                             <property name="x">132</property>
@@ -375,7 +389,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkTextView" id="textview1">
+              <object class="GtkTextView" id="main_feed_TV">
                 <property name="width_request">380</property>
                 <property name="height_request">139</property>
                 <property name="visible">True</property>
@@ -398,7 +412,7 @@
                     <property name="visible">True</property>
                     <property name="left_padding">12</property>
                     <child>
-                      <object class="GtkTextView" id="textview2">
+                      <object class="GtkTextView" id="user_feed_TV">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -430,7 +444,7 @@
                     <property name="visible">True</property>
                     <property name="left_padding">12</property>
                     <child>
-                      <object class="GtkTextView" id="textview3">
+                      <object class="GtkTextView" id="time_line_TV">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                       </object>
@@ -479,16 +493,6 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkListStore" id="liststore1">
-    <columns>
-      <!-- column-name Account -->
-      <column type="gchar"/>
-      <!-- column-name Following -->
-      <column type="gchar"/>
-      <!-- column-name gchar1 -->
-      <column type="gchar"/>
-    </columns>
   </object>
   <object class="GtkTreeViewColumn" id="treeviewcolumn1">
     <property name="title">Huntly</property>
