@@ -32,7 +32,7 @@ if (os.path.exists(os.path.join(PROJECT_ROOT_DIRECTORY, 'gwitter'))
 from gwitter import (
     AboutGwitterDialog, PreferencesGwitterDialog)
 from gwitter.helpers import get_builder
-
+dave = 34
 class GwitterWindow(gtk.Window):
     __gtype_name__ = "GwitterWindow"
     # To construct a new instance of this method, the following notable 
@@ -85,7 +85,7 @@ class GwitterWindow(gtk.Window):
         #self.preferences = dlg.get_preferences()
 
         # Code for other initialization actions should be added here.
-        max_chars = 147
+        
 
     def about(self, widget, data=None):
         """Display the about box for gwitter."""
