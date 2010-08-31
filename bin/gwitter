@@ -106,14 +106,17 @@ class GwitterWindow(gtk.Window):
         main_feed_TV. Choices choices"""
         # Method to handle search here.
         search_text = self.get_text("txt_search")
-        print search_text
+        print search_text.get_text()
+        search_text.set_text("")
 
     def tweet_btn_clicked(self,widget, data=None):
         """Called when the Tweet button is clicked. This should call a method that 
         will upload the text from the tweet_text box and post it to the current users
         twitter page using OAuth"""
         tweet_text = self.get_text("txt_tweet")        
-        print tweet_text
+        print tweet_text.get_text()
+        tweet_text.set_text("")
+        
 
     def btn_unfollow_clicked(self, widget, data=None):
         """Called when the user wants to unfollow another user and has pressed 
@@ -134,10 +137,12 @@ class GwitterWindow(gtk.Window):
         return the text from that text box."""
         
         if caller == "txt_search":
-            search_text = self.builder.get_object("txt_search").get_text()
+            # Get the whole object so it can be altered
+            search_text = self.builder.get_object("txt_search")
             return search_text
         elif caller == "txt_tweet":
-            tweet_text = self.builder.get_object("txt_tweet").get_text()            
+            # Get the whole object so it can be altered
+            tweet_text = self.builder.get_object("txt_tweet")           
             return tweet_text
 
     def update_chars_left(self,widget,m,n ,data=None):
@@ -173,7 +178,7 @@ if __name__ == "__main__":
 
     # Run the application.
     #number of characters allowed in a single tweet. DONT KNOW WHERE ELSE TO PUT THIS HUNTLY!
-    max_chars = 147
+    max_chars = 140
     window = GwitterWindow()
     window.show()
     gtk.main()
