@@ -25,6 +25,7 @@ from gwitter import (
     AboutGwitterDialog, PreferencesGwitterDialog)
 from gwitter.helpers import get_builder
 <<<<<<< HEAD
+dave = 34
 =======
 
 
@@ -35,7 +36,7 @@ import gwitter.oauthtwitter as twitt #import OAuthAPI
 >>>>>>> upstream/master
 class GwitterWindow(gtk.Window):
     __gtype_name__ = "GwitterWindow"
-    dave = 34
+    dave = 50
     # To construct a new instance of this method, the following notable 
     # methods are called in this order:
     # __new__(cls)
