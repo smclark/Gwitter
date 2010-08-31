@@ -112,6 +112,41 @@ class GwitterWindow(gtk.Window):
         # Clean up code for saving application state should be added here.
         gtk.main_quit()
 
+        #All code for button interactions to go below this comment:
+
+    def search_btn_clicked(self, widget, data=None):
+        """Called whenever the search button is clicked. Method should be here to 
+        either open a new window with the results in it or post results to the 
+        main_feed_TV. Choices choices"""
+        # Method to handle search here.
+        search_text = self.get_text("txt_search")
+        print search_text
+
+    def tweet_btn_clicked(self,widget, data=None):
+        tweet_text = self.get_text("txt_tweet")        
+        print tweet_text
+
+    def get_text(self, caller):
+        """This method will determine which caller has asked to retrieve text 
+        from one of the textboxes on the GUI. Depending on who called it will
+        return the text from that text box."""
+        
+        if caller == "txt_search":
+            return "Searchings"
+        elif caller == "txt_tweet":
+            return "Tweetings"
+
+    def btn_unfollow_clicked(self, widget, data=None):
+        """Called when the user wants to unfollow another user and has pressed 
+        the unfollow button in the account management area. Should probably present the
+        user with a combo box style list with all the people they follow on it."""
+        print "unfollow clicked"
+
+    def btn_follow_clicked(self, widget, data=None):
+        """Bring up a new window that the user can enter the details of the person
+        they want to follow in. Either email address or username"""
+        print "follow clicked"
+
 if __name__ == "__main__":
     # Support for command line options.
     import logging
