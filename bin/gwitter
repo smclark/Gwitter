@@ -39,6 +39,9 @@ class GwitterWindow(gtk.Window):
     #
     # For this reason, it's recommended you leave __init__ empty and put
     # your inialization code in finish_intializing
+
+    ##Put class level stuff here
+    MAX_TWEET_LENGTH = 140
     
     def __new__(cls):
         """Special static method that's automatically called by Python when 
@@ -70,10 +73,8 @@ class GwitterWindow(gtk.Window):
         #self.preferences = dlg.get_preferences()
 
         # Code for other initialization actions should be added here.
+        #twitter = twitt.OAuthApi().TestMethod()
 
-
-#        twitter = twitt.OAuthApi().TestMethod()
-        max_chars = 147
     def about(self, widget, data=None):
         """Display the about box for gwitter."""
         about = AboutGwitterDialog.AboutGwitterDialog()
@@ -106,17 +107,14 @@ class GwitterWindow(gtk.Window):
         main_feed_TV. Choices choices"""
         # Method to handle search here.
         search_text = self.get_text("txt_search")
-        print search_text.get_text()
-        search_text.set_text("")
+        print search_text
 
     def tweet_btn_clicked(self,widget, data=None):
         """Called when the Tweet button is clicked. This should call a method that 
         will upload the text from the tweet_text box and post it to the current users
         twitter page using OAuth"""
         tweet_text = self.get_text("txt_tweet")        
-        print tweet_text.get_text()
-        tweet_text.set_text("")
-        
+        print tweet_text
 
     def btn_unfollow_clicked(self, widget, data=None):
         """Called when the user wants to unfollow another user and has pressed 
@@ -137,17 +135,15 @@ class GwitterWindow(gtk.Window):
         return the text from that text box."""
         
         if caller == "txt_search":
-            # Get the whole object so it can be altered
-            search_text = self.builder.get_object("txt_search")
+            search_text = self.builder.get_object("txt_search").get_text()
             return search_text
         elif caller == "txt_tweet":
-            # Get the whole object so it can be altered
-            tweet_text = self.builder.get_object("txt_tweet")           
+            tweet_text = self.builder.get_object("txt_tweet").get_text()            
             return tweet_text
 
     def update_chars_left(self,widget,m,n ,data=None):
         """Calculate how many character the user has remaining to add to their Tweet 
-        before it reaches the maximum limit imposed by Twitter: 140 characters"""
+        before it reaches the maximum limit imposed by Twitter: 147 characters"""
         global max_chars 
         if (max_chars - 1) == -1:
             print "Limit reached"
@@ -160,6 +156,21 @@ class GwitterWindow(gtk.Window):
         box and alters the label on the status bar to show how many characters are left."""
         status_label = self.builder.get_object("status_lbl")
         status_label.set_text("%d characters left" % chars)
+
+    #overload method for update_status()
+    def update_status_bar(self, widget, character, num_chars, data=None):
+        """Every time the tweet box has text inserted or deleted, this method is
+           called.  We calculate how many characters the user has left."""
+        tweet_length = len(widget.get_text())
+        status_label = self.builder.get_object("status_lbl")
+        status_label.set_text("%d characters left" % (self.MAX_TWEET_LENGTH - tweet_length))
+
+        #if user goes over limit, change the bgcolour of the entry box        
+        if (tweet_length > self.MAX_TWEET_LENGTH):
+            widget.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse("#c67171"))
+        else:
+            widget.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse("white"))
+
 
 if __name__ == "__main__":
     # Support for command line options.
@@ -177,8 +188,6 @@ if __name__ == "__main__":
         logging.debug('logging enabled')
 
     # Run the application.
-    #number of characters allowed in a single tweet. DONT KNOW WHERE ELSE TO PUT THIS HUNTLY!
-    max_chars = 140
     window = GwitterWindow()
     window.show()
     gtk.main()

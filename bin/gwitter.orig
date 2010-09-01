@@ -24,10 +24,6 @@ if (os.path.exists(os.path.join(PROJECT_ROOT_DIRECTORY, 'gwitter'))
 from gwitter import (
     AboutGwitterDialog, PreferencesGwitterDialog)
 from gwitter.helpers import get_builder
-<<<<<<< HEAD
-dave = 34
-=======
-
 
 from oauth import oauth
 import gwitter.oauthtwitter as twitt #import OAuthAPI
@@ -36,7 +32,6 @@ import gwitter.oauthtwitter as twitt #import OAuthAPI
 >>>>>>> upstream/master
 class GwitterWindow(gtk.Window):
     __gtype_name__ = "GwitterWindow"
-    dave = 50
     # To construct a new instance of this method, the following notable 
     # methods are called in this order:
     # __new__(cls)

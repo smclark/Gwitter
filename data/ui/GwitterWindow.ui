@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <interface>
+  <!-- interface-requires gwitter_window 1.0 -->
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-requires gwitter_window 1.0 -->
   <!-- interface-naming-policy project-wide -->
@@ -206,10 +207,10 @@
               <object class="GtkEntry" id="txt_tweet">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="max_length">147</property>
                 <property name="invisible_char">&#x25CF;</property>
-                <signal name="delete_text" handler="update_chars_left"/>
-                <signal name="insert_text" handler="update_chars_left"/>
+                <property name="caps_lock_warning">False</property>
+                <signal name="delete_text" handler="update_status_bar" after="yes"/>
+                <signal name="insert_text" handler="update_status_bar" after="yes"/>
               </object>
               <packing>
                 <property name="position">1</property>
