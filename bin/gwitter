@@ -25,13 +25,11 @@ from gwitter import (
     AboutGwitterDialog, PreferencesGwitterDialog)
 from gwitter.helpers import get_builder
 
-<<<<<<< .merge_file_aFR73H
+
 from oauth import oauth
 import gwitter.oauthtwitter as twitt #import OAuthAPI
 
 
-=======
->>>>>>> .merge_file_mNCEaI
 class GwitterWindow(gtk.Window):
     __gtype_name__ = "GwitterWindow"
     # To construct a new instance of this method, the following notable 
@@ -43,6 +41,9 @@ class GwitterWindow(gtk.Window):
     #
     # For this reason, it's recommended you leave __init__ empty and put
     # your inialization code in finish_intializing
+
+    ##Put class level stuff here
+    MAX_TWEET_LENGTH = 140
     
     def __new__(cls):
         """Special static method that's automatically called by Python when 
@@ -74,11 +75,7 @@ class GwitterWindow(gtk.Window):
         #self.preferences = dlg.get_preferences()
 
         # Code for other initialization actions should be added here.
-<<<<<<< .merge_file_aFR73H
-        twitter = twitt.OAuthApi().TestMethod()
-=======
-        max_chars = 147
->>>>>>> .merge_file_mNCEaI
+        #twitter = twitt.OAuthApi().TestMethod()
 
     def about(self, widget, data=None):
         """Display the about box for gwitter."""
@@ -162,6 +159,21 @@ class GwitterWindow(gtk.Window):
         status_label = self.builder.get_object("status_lbl")
         status_label.set_text("%d characters left" % chars)
 
+    #overload method for update_status()
+    def update_status_bar(self, widget, character, num_chars, data=None):
+        """Every time the tweet box has text inserted or deleted, this method is
+           called.  We calculate how many characters the user has left."""
+        tweet_length = len(widget.get_text())
+        status_label = self.builder.get_object("status_lbl")
+        status_label.set_text("%d characters left" % (self.MAX_TWEET_LENGTH - tweet_length))
+
+        #if user goes over limit, change the bgcolour of the entry box        
+        if (tweet_length > self.MAX_TWEET_LENGTH):
+            widget.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse("#c67171"))
+        else:
+            widget.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse("white"))
+
+
 if __name__ == "__main__":
     # Support for command line options.
     import logging
@@ -178,8 +190,6 @@ if __name__ == "__main__":
         logging.debug('logging enabled')
 
     # Run the application.
-    max_chars = 147 
-    #number of characters allowed in a single tweet. DONT KNOW WHERE ELSE TO PUT THIS HUNTLY!
     window = GwitterWindow()
     window.show()
     gtk.main()
