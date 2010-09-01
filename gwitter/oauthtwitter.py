@@ -79,7 +79,7 @@ class OAuthApi():
 
         if http_method == "POST":
             encoded_post_data = req.to_postdata()
-            url = req.get_normalized_http_url()
+            #url = req.get_normalized_http_url()
         else:
             url = req.to_url()
             encoded_post_data = ""
@@ -294,5 +294,8 @@ class OAuthApi():
         f = open("/tmp/tweets", "w")
         f.seek(2) #go to EOF
         f.write(str(tweet))
+
+    def TestMethod(self):
+        print "TWEET!"
 
         

@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <interface>
-  <!-- interface-requires gwitter_window 1.0 -->
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-requires gwitter_window 1.0 -->
   <!-- interface-naming-policy project-wide -->
@@ -209,8 +208,8 @@
                 <property name="can_focus">True</property>
                 <property name="invisible_char">&#x25CF;</property>
                 <property name="caps_lock_warning">False</property>
-                <signal name="delete_text" handler="update_status_bar" after="yes"/>
-                <signal name="insert_text" handler="update_status_bar" after="yes"/>
+                <signal name="delete_text" handler="update_tweet_count" after="yes"/>
+                <signal name="insert_text" handler="update_tweet_count" after="yes"/>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -421,6 +420,9 @@
                       <object class="GtkTextView" id="user_feed_TV">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="editable">False</property>
+                        <property name="wrap_mode">word</property>
+                        <property name="buffer">personal_tweet_buffer</property>
                       </object>
                     </child>
                   </object>
@@ -503,4 +505,5 @@
   <object class="GtkTreeViewColumn" id="treeviewcolumn1">
     <property name="title">Huntly</property>
   </object>
+  <object class="GtkTextBuffer" id="personal_tweet_buffer"/>
 </interface>

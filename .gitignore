@@ -1,5 +1,5 @@
 *.tar*
-oauth_token
+auth_token
 *.pyc
 *.pyo
 *.orig

@@ -8,25 +8,30 @@ import sys
 import os
 import gtk
 
-import gettext
-from gettext import gettext as _
-gettext.textdomain('gwitter')
-
 # Add project root directory (enable symlink, and trunk execution).
 PROJECT_ROOT_DIRECTORY = os.path.abspath(
     os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0]))))
+#AUTH_FILE_PATH = "%s/data/auth_token" % PROJECT_ROOT_DIRECTORY
 
 if (os.path.exists(os.path.join(PROJECT_ROOT_DIRECTORY, 'gwitter'))
     and PROJECT_ROOT_DIRECTORY not in sys.path):
     sys.path.insert(0, PROJECT_ROOT_DIRECTORY)
     os.putenv('PYTHONPATH', PROJECT_ROOT_DIRECTORY) # for subprocesses
 
-from gwitter import (
-    AboutGwitterDialog, PreferencesGwitterDialog)
+#Import Dialogs
+from gwitter import (AboutGwitterDialog, 
+                     PreferencesGwitterDialog,
+                     AuthDialog)
 from gwitter.helpers import get_builder
 
+import gettext
+from gettext import gettext as _
+gettext.textdomain('gwitter')
+
+#Import Oauth Stuff
 from oauth import oauth
-import gwitter.oauthtwitter as twitt #import OAuthAPI
+from gwitter.oauthtwitter import OAuthApi
+
 
 class GwitterWindow(gtk.Window):
     __gtype_name__ = "GwitterWindow"
@@ -41,8 +46,14 @@ class GwitterWindow(gtk.Window):
     # your inialization code in finish_intializing
 
     ##Put class level stuff here
+
+    AUTH_FILE_PATH = "%s/data/auth_token" % PROJECT_ROOT_DIRECTORY
     MAX_TWEET_LENGTH = 140
-    
+    CONSUMER_SECRET = "mMffapJI2JllKDJVLNbhSPKZXKFKo7GehjiR6wUyHE"
+    CONSUMER_KEY = "CJOVn3Hxg7XECnxLChLqA"
+    USER_TOKEN = ""
+    USER_SECRET = ""
+
     def __new__(cls):
         """Special static method that's automatically called by Python when 
         constructing a new instance of this class.
@@ -73,7 +84,40 @@ class GwitterWindow(gtk.Window):
         #self.preferences = dlg.get_preferences()
 
         # Code for other initialization actions should be added here.
-        #twitter = twitt.OAuthApi().TestMethod()
+        self.authWithTwitter()
+
+    def authWithTwitter(self):
+        """Method will try to see if token is saved (for the moment in a plain
+           text file, and use it.  If the file is not found the user is asked to
+           authorise the application"""
+        #if file exists, read from it, else pop up auth
+        if (os.path.exists(self.AUTH_FILE_PATH)):
+            try:
+                auth_file = open(self.AUTH_FILE_PATH, "r")
+                self.USER_TOKEN = auth_file.readline().rsplit(":")[1].rsplit("\n")[0].strip()
+                self.USER_SECRET = auth_file.readline().rsplit(":")[1].rsplit("\n")[0].strip()
+                auth_file.close()
+                self.twitter = OAuthApi(self.CONSUMER_KEY, 
+                                              self.CONSUMER_SECRET,
+                                              self.USER_TOKEN,
+                                              self.USER_SECRET)
+            except IOError as (errno, strerror):
+                print "I/O error in gwitter.py {0}): {1}".format(errno, strerror)
+            finally:
+                if (auth_file != None):
+                    try:                
+                        auth_file.close()
+                        auth_file = None
+                    except Exception:
+                        pass
+        else:
+            #Run auth dialog
+            auth = AuthDialog.AuthDialog()
+            auth.set_oauth_details(self.CONSUMER_KEY, self.CONSUMER_SECRET)
+            response = auth.run()
+            if response == gtk.RESPONSE_OK:
+                #Key's been created, call method again to extract from file
+                self.authWithTwitter()
 
     def about(self, widget, data=None):
         """Display the about box for gwitter."""
@@ -99,7 +143,7 @@ class GwitterWindow(gtk.Window):
         # Clean up code for saving application state should be added here.
         gtk.main_quit()
 
-        #All code for button interactions to go below this comment:
+    #All code for button interactions to go below this comment:
 
     def search_btn_clicked(self, widget, data=None):
         """Called whenever the search button is clicked. Method should be here to 
@@ -113,7 +157,20 @@ class GwitterWindow(gtk.Window):
         """Called when the Tweet button is clicked. This should call a method that 
         will upload the text from the tweet_text box and post it to the current users
         twitter page using OAuth"""
-        tweet_text = self.get_text("txt_tweet")        
+        tweet_text = self.get_text("txt_tweet") 
+        
+        #double check the length and go.
+        if (len(tweet_text) <= 140):    
+            self.twitter.UpdateStatus(tweet_text)   
+            status_label = self.builder.get_object("status_lbl")
+            #clear the text box and update the status
+            self.builder.get_object("txt_tweet").set_text("")
+            my_tweet_bufffer = self.builder.get_object("personal_tweet_buffer")
+            iters = my_tweet_bufffer.get_end_iter()
+            my_tweet_bufffer.insert(iters, "%s\n\n" % tweet_text)
+        else:
+            status_label = self.builder.get_object("status_lbl")
+            status_label.set_text("Too long: Tweet != Blog -__-")
         print tweet_text
 
     def btn_unfollow_clicked(self, widget, data=None):
@@ -141,24 +198,8 @@ class GwitterWindow(gtk.Window):
             tweet_text = self.builder.get_object("txt_tweet").get_text()            
             return tweet_text
 
-    def update_chars_left(self,widget,m,n ,data=None):
-        """Calculate how many character the user has remaining to add to their Tweet 
-        before it reaches the maximum limit imposed by Twitter: 147 characters"""
-        global max_chars 
-        if (max_chars - 1) == -1:
-            print "Limit reached"
-        else:
-            max_chars = max_chars - 1
-            self.update_status(max_chars)
 
-    def update_status(self, chars):
-        """this method is called everytime a user enters text into the Tweet text 
-        box and alters the label on the status bar to show how many characters are left."""
-        status_label = self.builder.get_object("status_lbl")
-        status_label.set_text("%d characters left" % chars)
-
-    #overload method for update_status()
-    def update_status_bar(self, widget, character, num_chars, data=None):
+    def update_tweet_count(self, widget, character, num_chars, data=None):
         """Every time the tweet box has text inserted or deleted, this method is
            called.  We calculate how many characters the user has left."""
         tweet_length = len(widget.get_text())
