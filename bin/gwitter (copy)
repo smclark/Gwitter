@@ -92,26 +92,15 @@ class GwitterWindow(gtk.Window):
         """Method will retrieve all of the friends linked to the uers account.
         It will then put each of the screen_names from the users friends list 
         into a list and populate the treeview with this list model"""
-        
-        self.tree_store = gtk.TreeStore( gobject.TYPE_STRING,
-                                         gobject.TYPE_BOOLEAN )
-        # places the global people data into the list
-        # we form a simple tree.
         self.friends = self.twitter.GetFriends()
         self.tree = self.builder.get_object("rel_tree")
+        self.tree_list = gtk.ListStore(gobject.TYPE_STRING)
         self.temp_list = []
-        for t in self.friends:
-            self.temp_list.append(t)
-        for k in self.temp_list:
-            parent = self.tree_store.append( None, (k["screen_name"], None) )       
-        #self.view = Display.make_view( self.tree_store )
-        self.tree.set_model(self.tree_store)            
-        self.renderer = gtk.CellRendererText()
-        # Connect column0 of the display with column 0 in our list model
-        # The renderer will then display whatever is in column 0 of
-        # our model .
-        self.column0 = gtk.TreeViewColumn("Buddies", self.renderer, text=0)
-        self.tree.append_column( self.column0 )
+        for k in self.friends:
+            self.temp_list.append(k["screen_name"])
+        for name in self.temp_list:
+            self.tree_list.append([name])
+        self.tree.set_model(self.tree_list)
 
     def authWithTwitter(self):
         """Method will try to see if token is saved (for the moment in a plain
@@ -277,6 +266,7 @@ if __name__ == "__main__":
         logging.basicConfig(level=logging.DEBUG)
         logging.debug('logging enabled')
     
+
     # Run the application.
     window = GwitterWindow()
     window.show()

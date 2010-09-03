@@ -14,6 +14,7 @@
       <column type="gchar"/>
     </columns>
   </object>
+  <object class="GtkListStore" id="liststore2"/>
   <object class="GwitterWindow" id="gwitter_window">
     <property name="title" translatable="yes">Gwitter</property>
     <property name="resizable">False</property>
@@ -241,20 +242,6 @@
             <property name="height_request">0</property>
             <property name="visible">True</property>
             <child>
-              <object class="GtkTreeView" id="rel_tree">
-                <property name="width_request">183</property>
-                <property name="height_request">137</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="model">liststore1</property>
-                <property name="expander_column">treeviewcolumn1</property>
-              </object>
-              <packing>
-                <property name="x">8</property>
-                <property name="y">8</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkFrame" id="frm_manage_account">
                 <property name="width_request">185</property>
                 <property name="height_request">89</property>
@@ -470,6 +457,27 @@
               <packing>
                 <property name="x">403</property>
                 <property name="y">160</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="scrolledwindow1">
+                <property name="width_request">181</property>
+                <property name="height_request">139</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <property name="window_placement">bottom-left</property>
+                <child>
+                  <object class="GtkTreeView" id="rel_tree">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="x">10</property>
+                <property name="y">8</property>
               </packing>
             </child>
           </object>
