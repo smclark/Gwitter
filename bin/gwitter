@@ -171,6 +171,19 @@ class GwitterWindow(gtk.Window):
         gtk.main_quit()
 
     #All code for button interactions to go below this comment:
+    
+    def cursor_changed_clicked(self, widget, data=None):
+        self.friend_timeline = self.builder.get_object("main_feed_TV")
+        self.buffer = gtk.TextBuffer()
+        self.test = self.tree.get_cursor()   
+        self.friend_num = self.test[0][0]
+        self.sel_friend = self.temp_list[self.friend_num]
+        self.name_lol = str(self.sel_friend["screen_name"])
+        self.timeline = self.twitter.GetUserTimeline({"screen_name" :self.name_lol,"count":10})
+        for t in self.timeline:
+            self.feed_text = t["text"]     
+            self.buffer.insert_at_cursor(self.name_lol + ":\n " + self.feed_text + "\n\n")
+            self.friend_timeline.set_buffer(self.buffer)
 
     def search_btn_clicked(self, widget, data=None):
         """Called whenever the search button is clicked. Method should be here to 

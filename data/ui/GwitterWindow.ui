@@ -16,9 +16,11 @@
   </object>
   <object class="GtkListStore" id="liststore2"/>
   <object class="GwitterWindow" id="gwitter_window">
+    <property name="width_request">700</property>
+    <property name="height_request">600</property>
     <property name="title" translatable="yes">Gwitter</property>
     <property name="resizable">False</property>
-    <property name="window_position">center</property>
+    <property name="window_position">mouse</property>
     <property name="icon">../media/icon.png</property>
     <signal name="destroy" handler="on_destroy"/>
     <child>
@@ -243,7 +245,7 @@
             <property name="visible">True</property>
             <child>
               <object class="GtkFrame" id="frm_manage_account">
-                <property name="width_request">185</property>
+                <property name="width_request">225</property>
                 <property name="height_request">89</property>
                 <property name="visible">True</property>
                 <property name="label_xalign">0</property>
@@ -321,13 +323,13 @@
                 </child>
               </object>
               <packing>
-                <property name="x">4</property>
-                <property name="y">163</property>
+                <property name="x">10</property>
+                <property name="y">280</property>
               </packing>
             </child>
             <child>
               <object class="GtkFrame" id="frm_search">
-                <property name="width_request">182</property>
+                <property name="width_request">225</property>
                 <property name="height_request">55</property>
                 <property name="visible">True</property>
                 <property name="label_xalign">0</property>
@@ -335,7 +337,6 @@
                 <child>
                   <object class="GtkAlignment" id="alignment2">
                     <property name="visible">True</property>
-                    <property name="left_padding">12</property>
                     <child>
                       <object class="GtkFixed" id="fixed3">
                         <property name="visible">True</property>
@@ -376,33 +377,20 @@
                 </child>
               </object>
               <packing>
-                <property name="x">4</property>
-                <property name="y">280</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkTextView" id="main_feed_TV">
-                <property name="width_request">380</property>
-                <property name="height_request">139</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-              </object>
-              <packing>
-                <property name="x">197</property>
-                <property name="y">8</property>
+                <property name="x">10</property>
+                <property name="y">400</property>
               </packing>
             </child>
             <child>
               <object class="GtkFrame" id="frame1">
-                <property name="width_request">180</property>
-                <property name="height_request">266</property>
+                <property name="width_request">200</property>
+                <property name="height_request">270</property>
                 <property name="visible">True</property>
                 <property name="label_xalign">0</property>
                 <property name="shadow_type">none</property>
                 <child>
                   <object class="GtkAlignment" id="alignment3">
                     <property name="visible">True</property>
-                    <property name="left_padding">12</property>
                     <child>
                       <object class="GtkTextView" id="user_feed_TV">
                         <property name="visible">True</property>
@@ -423,21 +411,20 @@
                 </child>
               </object>
               <packing>
-                <property name="x">218</property>
-                <property name="y">163</property>
+                <property name="x">250</property>
+                <property name="y">220</property>
               </packing>
             </child>
             <child>
               <object class="GtkFrame" id="frame2">
-                <property name="width_request">175</property>
-                <property name="height_request">268</property>
+                <property name="width_request">200</property>
+                <property name="height_request">270</property>
                 <property name="visible">True</property>
                 <property name="label_xalign">0</property>
                 <property name="shadow_type">none</property>
                 <child>
                   <object class="GtkAlignment" id="alignment4">
                     <property name="visible">True</property>
-                    <property name="left_padding">12</property>
                     <child>
                       <object class="GtkTextView" id="time_line_TV">
                         <property name="visible">True</property>
@@ -455,14 +442,14 @@
                 </child>
               </object>
               <packing>
-                <property name="x">403</property>
-                <property name="y">160</property>
+                <property name="x">460</property>
+                <property name="y">220</property>
               </packing>
             </child>
             <child>
               <object class="GtkScrolledWindow" id="scrolledwindow1">
-                <property name="width_request">181</property>
-                <property name="height_request">139</property>
+                <property name="width_request">225</property>
+                <property name="height_request">250</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="hscrollbar_policy">automatic</property>
@@ -472,12 +459,34 @@
                   <object class="GtkTreeView" id="rel_tree">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <signal name="cursor_changed" handler="cursor_changed_clicked"/>
                   </object>
                 </child>
               </object>
               <packing>
                 <property name="x">10</property>
-                <property name="y">8</property>
+                <property name="y">10</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="scrolledwindow2">
+                <property name="width_request">410</property>
+                <property name="height_request">205</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <child>
+                  <object class="GtkTextView" id="main_feed_TV">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="wrap_mode">word</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="x">250</property>
+                <property name="y">10</property>
               </packing>
             </child>
           </object>
